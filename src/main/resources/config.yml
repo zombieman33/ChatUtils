@@ -1,0 +1,6 @@
+staffChat:
+  format: '&b[Staff-Chat] %player% → %message%'
+adminChat:
+  format: '&c[Admin-Chat] %player% → %message%'
+
+chatMuted: false

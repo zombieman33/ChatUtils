@@ -1,0 +1,22 @@
+name: ChatControlPlus
+version: '${project.version}'
+main: chatcontrolplus.chatcontrolplus.ChatControlPlus
+api-version: 1.19
+authors: [ zombieman ]
+commands:
+  staffchat:
+    aliases:
+      - sc
+      - s
+  adminchat:
+    aliases:
+      - ac
+
+  clearchat:
+    aliases: cc
+  mutechat:
+    aliases: mc
+  sudo:
+
+  chatcontrolplus:
+    aliases: ccp
