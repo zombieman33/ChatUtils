@@ -1,16 +1,15 @@
 package chatcontrolplus.chatcontrolplus.listeners;
 
-import chatcontrolplus.chatcontrolplus.ChatControlPlus;
+import chatcontrolplus.chatcontrolplus.ChatUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 public class ClearChatListener implements Listener {
 
-    private ChatControlPlus plugin;
+    private ChatUtils plugin;
 
-    public ClearChatListener(ChatControlPlus plugin) {
+    public ClearChatListener(ChatUtils plugin) {
         this.plugin = plugin;
     }
     public void clearChat(Player player, ChatColor color) {

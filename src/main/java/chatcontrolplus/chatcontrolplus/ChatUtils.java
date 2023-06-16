@@ -1,14 +1,15 @@
 package chatcontrolplus.chatcontrolplus;
 
 import chatcontrolplus.chatcontrolplus.commands.*;
-import chatcontrolplus.chatcontrolplus.listeners.ClearChatListener;
-import chatcontrolplus.chatcontrolplus.listeners.MuteChatListener;
+import chatcontrolplus.chatcontrolplus.listeners.*;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.security.Permission;
 
-public final class ChatControlPlus extends JavaPlugin {
+public final class ChatUtils extends JavaPlugin {
+    private Permission permission;
 
     @Override
     public void onEnable() {
@@ -41,12 +42,27 @@ public final class ChatControlPlus extends JavaPlugin {
         PluginCommand sudoCmd = getCommand("sudo");
         if (sudoCmd != null) sudoCmd.setExecutor(sudoCommand);
 
+        BroadCastCommand broadCastCommand = new BroadCastCommand(this);
+        PluginCommand broadcastCmd = getCommand("broadcast");
+        if (broadcastCmd != null) broadcastCmd.setExecutor(broadCastCommand);
+
+        PlayerInfoCommand playerInfoCommand = new PlayerInfoCommand(this);
+        PluginCommand playerInfoCmd = getCommand("players");
+        if (playerInfoCmd != null) playerInfoCmd.setExecutor(playerInfoCommand);
+
+        MessageCommand messageCommand = new MessageCommand(this);
+        PluginCommand messageCmd = getCommand("message");
+        if (messageCmd != null) messageCmd.setExecutor(messageCommand);
+
         MainCommands mainCommand = new MainCommands(this);
-        PluginCommand mainCmd = getCommand("chatcontrolplus");
+        PluginCommand mainCmd = getCommand("chatutils");
         if (mainCmd != null) mainCmd.setExecutor(mainCommand);
 
         getServer().getPluginManager().registerEvents(new ClearChatListener(this), this);
         getServer().getPluginManager().registerEvents(new MuteChatListener(this), this);
+        getServer().getPluginManager().registerEvents(new ChatConfigurations(this), this);
+        getServer().getPluginManager().registerEvents(new EmojiListener(this), this);
+        getServer().getPluginManager().registerEvents(new TimeMessageListener(this), this);
 
     }
 

@@ -1,22 +1,17 @@
 package chatcontrolplus.chatcontrolplus.listeners;
 
-import chatcontrolplus.chatcontrolplus.ChatControlPlus;
-import org.bukkit.Bukkit;
+import chatcontrolplus.chatcontrolplus.ChatUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 public class MuteChatListener implements Listener {
 
-    private ChatControlPlus plugin;
+    private ChatUtils plugin;
 
-    public MuteChatListener(ChatControlPlus plugin) {
+    public MuteChatListener(ChatUtils plugin) {
         this.plugin = plugin;
     }
 
@@ -41,7 +36,7 @@ public class MuteChatListener implements Listener {
     public void onMessage(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         boolean isMuted = plugin.getConfig().getBoolean("isChatNotMuted", false);
-        if (isMuted && !player.hasPermission("chatcontrolplus.bypass")) {
+        if (isMuted && !player.hasPermission("chatutils.bypass")) {
             event.setCancelled(true);
             player.sendMessage(ChatColor.RED + "The chat is currently muted");
         }

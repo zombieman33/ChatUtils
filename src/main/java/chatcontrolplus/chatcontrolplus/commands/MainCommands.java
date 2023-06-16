@@ -1,9 +1,6 @@
 package chatcontrolplus.chatcontrolplus.commands;
 
-import chatcontrolplus.chatcontrolplus.ChatControlPlus;
-import chatcontrolplus.chatcontrolplus.utils.ColorUtil;
-import org.apache.commons.lang3.StringUtils;
-import org.bukkit.Bukkit;
+import chatcontrolplus.chatcontrolplus.ChatUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainCommands implements CommandExecutor, TabCompleter {
-    private final ChatControlPlus plugin;
+    private final ChatUtils plugin;
 
-    public MainCommands(ChatControlPlus plugin) {
+    public MainCommands(ChatUtils plugin) {
         this.plugin = plugin;
     }
 
@@ -32,7 +29,7 @@ public class MainCommands implements CommandExecutor, TabCompleter {
 
         if (args.length >= 1) {
             if (args[0].equalsIgnoreCase("reload")) {
-                if (player.hasPermission("chatcontrolplus.reload")) {
+                if (player.hasPermission("chatutils.reload")) {
                     long startTime = System.currentTimeMillis();
                     plugin.reloadConfig();
                     long endTime = System.currentTimeMillis();
@@ -52,7 +49,7 @@ public class MainCommands implements CommandExecutor, TabCompleter {
 
         Player player = (Player) sender;
         if (args.length == 1) {
-            if (player.hasPermission("chatcontrolplus.reload")) {
+            if (player.hasPermission("chatutils.reload")) {
                 completions.add("reload");
             }
         }

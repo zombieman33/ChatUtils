@@ -1,25 +1,17 @@
 package chatcontrolplus.chatcontrolplus.commands;
 
-import chatcontrolplus.chatcontrolplus.ChatControlPlus;
+import chatcontrolplus.chatcontrolplus.ChatUtils;
 import chatcontrolplus.chatcontrolplus.listeners.ClearChatListener;
-import chatcontrolplus.chatcontrolplus.utils.ColorUtil;
-import org.apache.commons.lang3.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ClearChatCommand implements CommandExecutor {
-    private final ChatControlPlus plugin;
+    private final ChatUtils plugin;
 
-    public ClearChatCommand(ChatControlPlus plugin) {
+    public ClearChatCommand(ChatUtils plugin) {
         this.plugin = plugin;
     }
 
@@ -31,7 +23,7 @@ public class ClearChatCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if (player.hasPermission("chatcontrolplus.clearchat")) {
+        if (player.hasPermission("chatutils.clearchat")) {
             ClearChatListener clearChatListener = new ClearChatListener(plugin);
             clearChatListener.clearChat(player, ChatColor.AQUA);
         } else {

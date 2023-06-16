@@ -1,7 +1,6 @@
 package chatcontrolplus.chatcontrolplus.commands;
 
-import chatcontrolplus.chatcontrolplus.ChatControlPlus;
-import chatcontrolplus.chatcontrolplus.listeners.ClearChatListener;
+import chatcontrolplus.chatcontrolplus.ChatUtils;
 import chatcontrolplus.chatcontrolplus.listeners.MuteChatListener;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -10,9 +9,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class MuteChatCommand implements CommandExecutor {
-    private final ChatControlPlus plugin;
+    private final ChatUtils plugin;
 
-    public MuteChatCommand(ChatControlPlus plugin) {
+    public MuteChatCommand(ChatUtils plugin) {
         this.plugin = plugin;
     }
 
@@ -24,7 +23,7 @@ public class MuteChatCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if (player.hasPermission("chatcontrolplus.mutechat")) {
+        if (player.hasPermission("chatutils.mutechat")) {
             MuteChatListener muteChat = new MuteChatListener(plugin);
             muteChat.muteChat();
         } else {

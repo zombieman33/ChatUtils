@@ -1,8 +1,8 @@
 package chatcontrolplus.chatcontrolplus.commands;
 
-import chatcontrolplus.chatcontrolplus.ChatControlPlus;
+import chatcontrolplus.chatcontrolplus.ChatUtils;
 import chatcontrolplus.chatcontrolplus.utils.ColorUtil;
-import org.apache.commons.lang3.StringUtils;
+import chatcontrolplus.chatcontrolplus.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -10,15 +10,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StaffChatCommand implements CommandExecutor, TabCompleter {
-    private final ChatControlPlus plugin;
+    private final ChatUtils plugin;
 
-    public StaffChatCommand(ChatControlPlus plugin) {
+    public StaffChatCommand(ChatUtils plugin) {
         this.plugin = plugin;
     }
 
@@ -36,13 +35,13 @@ public class StaffChatCommand implements CommandExecutor, TabCompleter {
                 player.sendMessage(ChatColor.RED + "You need to add a message to send");
                 return true;
             }
-            if (player.hasPermission("chatcontrolplus.staffchat")) {
-                String message = StringUtils.join(args, ' ', 0, args.length);
+            if (player.hasPermission("chatutils.staffchat")) {
+                String message = StringUtils.join(" ", args);
                 String messageFormat = plugin.getConfig().getString("staffChat.format")
                         .replace("%player%", player.getName())
                         .replace("%message%", message);
                 for (Player onlineStaff : Bukkit.getOnlinePlayers()) {
-                    if (onlineStaff.hasPermission("chatcontrolplus.staffchat")) {
+                    if (onlineStaff.hasPermission("chatutils.staffchat")) {
                         onlineStaff.sendMessage(ColorUtil.color(messageFormat));
                     }
                 }
@@ -58,7 +57,7 @@ public class StaffChatCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
 
         Player player = (Player) sender;
-        if (player.hasPermission("chatcontrolplus.staffchat")) {
+        if (player.hasPermission("chatutils.staffchat")) {
             completions.add("<message>");
         }
         return completions;

@@ -1,6 +1,6 @@
-name: ChatControlPlus
+name: ChatUtils
 version: '${project.version}'
-main: chatcontrolplus.chatcontrolplus.ChatControlPlus
+main: chatcontrolplus.chatcontrolplus.ChatUtils
 api-version: 1.19
 authors: [ zombieman ]
 commands:
@@ -18,5 +18,17 @@ commands:
     aliases: mc
   sudo:
 
-  chatcontrolplus:
-    aliases: ccp
+  chatutils:
+    aliases: cu
+
+  broadcast:
+    aliases: bc
+  players:
+
+  message:
+    aliases:
+      - msg
+      - m
+      - cmsg
+      - chatutilmessage
+      - chatutilmsg

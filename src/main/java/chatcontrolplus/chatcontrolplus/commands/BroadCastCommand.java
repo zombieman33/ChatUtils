@@ -14,10 +14,10 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminChatCommand implements CommandExecutor, TabCompleter {
+public class BroadCastCommand implements CommandExecutor, TabCompleter {
     private final ChatUtils plugin;
 
-    public AdminChatCommand(ChatUtils plugin) {
+    public BroadCastCommand(ChatUtils plugin) {
         this.plugin = plugin;
     }
 
@@ -32,18 +32,16 @@ public class AdminChatCommand implements CommandExecutor, TabCompleter {
 
         if (args.length >= 1) {
             if (args[0] == null) {
-                player.sendMessage(ChatColor.RED + "You need to add a message to send");
+                player.sendMessage(ChatColor.RED + "You need to add a message to broadcast");
                 return true;
             }
-            if (player.hasPermission("chatutils.adminchat")) {
+            if (player.hasPermission("chatutils.broadcast")) {
                 String message = StringUtils.join(" ", args);
-                String messageFormat = plugin.getConfig().getString("adminChat.format")
+                String messageFormat = plugin.getConfig().getString("broadcast.format")
                         .replace("%player%", player.getName())
                         .replace("%message%", message);
-                for (Player onlineStaff : Bukkit.getOnlinePlayers()) {
-                    if (onlineStaff.hasPermission("chatutils.adminchat")) {
-                        onlineStaff.sendMessage(ColorUtil.color(messageFormat));
-                    }
+                for (Player onlinePlayers : Bukkit.getOnlinePlayers()) {
+                    onlinePlayers.sendMessage(ColorUtil.color(messageFormat).replace("%player%", player.getName()));
                 }
             } else {
                 player.sendMessage(ChatColor.RED + "You don't have permission to run this command.");
@@ -57,7 +55,7 @@ public class AdminChatCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
 
         Player player = (Player) sender;
-        if (player.hasPermission("chatutils.adminchat")) {
+        if (player.hasPermission("chatutils.broadcast")) {
             completions.add("<message>");
         }
         return completions;

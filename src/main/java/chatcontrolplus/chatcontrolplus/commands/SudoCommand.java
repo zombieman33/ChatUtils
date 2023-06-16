@@ -1,8 +1,7 @@
 package chatcontrolplus.chatcontrolplus.commands;
 
-import chatcontrolplus.chatcontrolplus.ChatControlPlus;
-import chatcontrolplus.chatcontrolplus.utils.ColorUtil;
-import org.apache.commons.lang3.StringUtils;
+import chatcontrolplus.chatcontrolplus.ChatUtils;
+import chatcontrolplus.chatcontrolplus.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -12,12 +11,13 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SudoCommand implements CommandExecutor, TabCompleter {
-    private final ChatControlPlus plugin;
+    private final ChatUtils plugin;
 
-    public SudoCommand(ChatControlPlus plugin) {
+    public SudoCommand(ChatUtils plugin) {
         this.plugin = plugin;
     }
 
@@ -30,15 +30,18 @@ public class SudoCommand implements CommandExecutor, TabCompleter {
 
         Player player = (Player) sender;
 
-        if (args.length >= 1) {
+        if (args.length >= 2) {
             if (args[0] == null) {
                 player.sendMessage(ChatColor.RED + "You need to specify a player to sudo");
                 return true;
             }
-            if (player.hasPermission("chatcontrolplus.sudo")) {
+            if (player.hasPermission("chatutils.sudo")) {
                 String targetName = args[0];
                 Player target = Bukkit.getPlayerExact(targetName);
-                String commandToRun = StringUtils.join(args, ' ', 1, args.length);
+
+                // Join arguments starting from index 1
+                String commandToRun = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+
                 if (targetName.equalsIgnoreCase("*")) {
                     if (commandToRun.startsWith("/")) {
                         String format = commandToRun.replace("/", "");
@@ -71,15 +74,19 @@ public class SudoCommand implements CommandExecutor, TabCompleter {
             } else {
                 player.sendMessage(ChatColor.RED + "You don't have permission to run this command.");
             }
+        } else {
+            player.sendMessage(ChatColor.RED + "Invalid command format. Usage: /sudo <player> /<command> or /sudo <player> <message>");
         }
-        return false;
+        return true;
     }
+
+
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
 
         Player player = (Player) sender;
-        if (player.hasPermission("chatcontrolplus.sudo")) {
+        if (player.hasPermission("chatutils.sudo")) {
             if (args.length == 1) {
                 completions.add("*");
                 for (Player onlinePlayers : Bukkit.getOnlinePlayers()) {
@@ -94,4 +101,3 @@ public class SudoCommand implements CommandExecutor, TabCompleter {
         return completions;
     }
 }
-

@@ -2,5 +2,29 @@ staffChat:
   format: '&b[Staff-Chat] %player% → %message%'
 adminChat:
   format: '&c[Admin-Chat] %player% → %message%'
+broadcast:
+  format: '&b&lChatUtils &b%message%'
+message:
+  format: '%player-from% → %player-to% &b%message%'
+
+timeMessage: '%message% &b%time%'
+timeZone: 'CET'
+
+# Replaces [item] with the player's
+# held item.
+showItem: true
+messageToReplace: '[item]'
 
 chatMuted: false
+
+emojis:
+  - "<3, &c❤&r"
+
+# %word% is the message sent.
+blacklistMessage: '&c&lYou are not allowed to say %word%'
+blacklist:
+  - fuck
+
+blacklistAdMessage: '&c&lYou are not allowed to advertise %word%'
+disabledAd:
+  - hypixel
