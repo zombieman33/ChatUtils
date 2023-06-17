@@ -22,10 +22,13 @@ public class EmojiListener implements Listener {
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
-        Player player = event.getPlayer();
-        String message = event.getMessage();
-        message = replaceEmojis(message);
-        event.setMessage(ColorUtil.color(message));
+        boolean shouldShowEmoji = plugin.getConfig().getBoolean("shouldShowEmoji");
+        if (shouldShowEmoji) {
+            Player player = event.getPlayer();
+            String message = event.getMessage();
+            message = replaceEmojis(message);
+            event.setMessage(ColorUtil.color(message));
+        }
     }
 
     private String replaceEmojis(String message) {

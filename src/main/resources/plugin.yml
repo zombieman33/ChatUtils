@@ -1,13 +1,12 @@
 name: ChatUtils
 version: '${project.version}'
 main: chatcontrolplus.chatcontrolplus.ChatUtils
-api-version: 1.19
+api-version: 1.16
 authors: [ zombieman ]
 commands:
   staffchat:
     aliases:
       - sc
-      - s
   adminchat:
     aliases:
       - ac
@@ -32,3 +31,7 @@ commands:
       - cmsg
       - chatutilmessage
       - chatutilmsg
+
+  command-broadcast:
+    aliases:
+      - cb

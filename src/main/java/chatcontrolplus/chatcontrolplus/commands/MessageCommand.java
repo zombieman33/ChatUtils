@@ -2,7 +2,6 @@ package chatcontrolplus.chatcontrolplus.commands;
 
 import chatcontrolplus.chatcontrolplus.ChatUtils;
 import chatcontrolplus.chatcontrolplus.utils.ColorUtil;
-import chatcontrolplus.chatcontrolplus.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -31,28 +30,33 @@ public class MessageCommand implements CommandExecutor, TabCompleter {
 
         Player player = (Player) sender;
 
-        if (args.length >= 1) {
-            if (player.hasPermission("chatutils.message")) {
-                String targetName = args[0];
-                Player target = Bukkit.getPlayerExact(targetName);
-                if (target != null) {
-                    String message = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-                    String messageFormat = plugin.getConfig().getString("message.format")
-                            .replace("%player-from%", player.getName())
-                            .replace("%player-to%", targetName)
-                            .replace("%message%", message);
-                    if (target != player) {
-                        target.sendMessage(ColorUtil.color(messageFormat));
-                        player.sendMessage(ColorUtil.color(messageFormat));
+        if (player.hasPermission("chatutils.message")) {
+            boolean shouldSendMessage = plugin.getConfig().getBoolean("shouldSendMessage");
+            if (shouldSendMessage) {
+                if (args.length >= 1) {
+                    String targetName = args[0];
+                    Player target = Bukkit.getPlayerExact(targetName);
+                    if (target != null) {
+                        String message = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+                        String messageFormat = plugin.getConfig().getString("message.format")
+                                .replace("%player-from%", player.getName())
+                                .replace("%player-to%", targetName)
+                                .replace("%message%", message);
+                        if (target != player) {
+                            target.sendMessage(ColorUtil.color(messageFormat));
+                            player.sendMessage(ColorUtil.color(messageFormat));
+                        } else {
+                            player.sendMessage(ColorUtil.color(messageFormat));
+                        }
                     } else {
-                        player.sendMessage(ColorUtil.color(messageFormat));
+                        player.sendMessage(ChatColor.RED + "Player not found.");
                     }
-                } else {
-                    player.sendMessage(ChatColor.RED + "Player not found.");
                 }
             } else {
-                player.sendMessage(ChatColor.RED + "You don't have permission to run this command.");
+                player.sendMessage(ChatColor.RED + "Private Messages are disabled");
             }
+        } else {
+            player.sendMessage(ChatColor.RED + "You don't have permission to run this command.");
         }
         return false;
     }

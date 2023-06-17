@@ -2,7 +2,6 @@ package chatcontrolplus.chatcontrolplus.commands;
 
 import chatcontrolplus.chatcontrolplus.ChatUtils;
 import chatcontrolplus.chatcontrolplus.utils.ColorUtil;
-import chatcontrolplus.chatcontrolplus.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -12,6 +11,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AdminChatCommand implements CommandExecutor, TabCompleter {
@@ -30,24 +30,29 @@ public class AdminChatCommand implements CommandExecutor, TabCompleter {
 
         Player player = (Player) sender;
 
-        if (args.length >= 1) {
-            if (args[0] == null) {
-                player.sendMessage(ChatColor.RED + "You need to add a message to send");
-                return true;
-            }
-            if (player.hasPermission("chatutils.adminchat")) {
-                String message = StringUtils.join(" ", args);
-                String messageFormat = plugin.getConfig().getString("adminChat.format")
-                        .replace("%player%", player.getName())
-                        .replace("%message%", message);
-                for (Player onlineStaff : Bukkit.getOnlinePlayers()) {
-                    if (onlineStaff.hasPermission("chatutils.adminchat")) {
-                        onlineStaff.sendMessage(ColorUtil.color(messageFormat));
+        if (player.hasPermission("chatutils.adminchat")) {
+            boolean shouldShowAdminChat = plugin.getConfig().getBoolean("shouldShowAdminChat");
+            if (shouldShowAdminChat) {
+                if (args.length >= 1) {
+                    if (args[0] == null) {
+                        player.sendMessage(ChatColor.RED + "You need to add a message to send");
+                        return true;
+                    }
+                    String message = String.join(" ", Arrays.copyOfRange(args, 0, args.length));
+                    String messageFormat = plugin.getConfig().getString("adminChat.format")
+                            .replace("%player%", player.getName())
+                            .replace("%message%", message);
+                    for (Player onlineStaff : Bukkit.getOnlinePlayers()) {
+                        if (onlineStaff.hasPermission("chatutils.adminchat")) {
+                            onlineStaff.sendMessage(ColorUtil.color(messageFormat));
+                        }
                     }
                 }
             } else {
-                player.sendMessage(ChatColor.RED + "You don't have permission to run this command.");
+                player.sendMessage(ChatColor.RED + "Admin Chat is disabled!");
             }
+        } else {
+            player.sendMessage(ChatColor.RED + "You don't have permission to run this command.");
         }
         return false;
     }

@@ -1,22 +1,44 @@
+shouldShowStaffChat: true
 staffChat:
   format: '&b[Staff-Chat] %player% → %message%'
+
+shouldShowAdminChat: true
 adminChat:
   format: '&c[Admin-Chat] %player% → %message%'
+
+# `shouldShowEmptyLine: true` means that it will send a empty line between
+# the brodcast message.
+# Broadcasts a message
+shouldShowBroadcast: true
 broadcast:
+  shouldShowEmptyLine: true
   format: '&b&lChatUtils &b%message%'
+
+# Broadcasts a command
+shouldShowCommandBroadcast: true
+commandBroadcast:
+  shouldShowEmptyLine: true
+  format: '&b&lChatUtils &bClick to run %command%'
+
+shouldSendMessage: true
 message:
   format: '%player-from% → %player-to% &b%message%'
 
+showTime: true
 timeMessage: '%message% &b%time%'
+timeFormat: 'HH:mm:ss'
 timeZone: 'CET'
+
+# WARNING `shouldShowIp: true` shows the players ip
+# if you don't want this set it to false!
+shouldShowIp: false
 
 # Replaces [item] with the player's
 # held item.
 showItem: true
 messageToReplace: '[item]'
 
-chatMuted: false
-
+shouldShowEmoji: true
 emojis:
   - "<3, &c❤&r"
 
@@ -28,3 +50,6 @@ blacklist:
 blacklistAdMessage: '&c&lYou are not allowed to advertise %word%'
 disabledAd:
   - hypixel
+
+
+isChatNotMuted: false

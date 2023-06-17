@@ -2,7 +2,6 @@ package chatcontrolplus.chatcontrolplus.commands;
 
 import chatcontrolplus.chatcontrolplus.ChatUtils;
 import chatcontrolplus.chatcontrolplus.utils.ColorUtil;
-import chatcontrolplus.chatcontrolplus.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -12,6 +11,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BroadCastCommand implements CommandExecutor, TabCompleter {
@@ -30,22 +30,34 @@ public class BroadCastCommand implements CommandExecutor, TabCompleter {
 
         Player player = (Player) sender;
 
-        if (args.length >= 1) {
-            if (args[0] == null) {
-                player.sendMessage(ChatColor.RED + "You need to add a message to broadcast");
-                return true;
-            }
-            if (player.hasPermission("chatutils.broadcast")) {
-                String message = StringUtils.join(" ", args);
-                String messageFormat = plugin.getConfig().getString("broadcast.format")
-                        .replace("%player%", player.getName())
-                        .replace("%message%", message);
-                for (Player onlinePlayers : Bukkit.getOnlinePlayers()) {
-                    onlinePlayers.sendMessage(ColorUtil.color(messageFormat).replace("%player%", player.getName()));
+        if (player.hasPermission("chatutils.broadcast")) {
+            boolean shouldShowBroadcast = plugin.getConfig().getBoolean("shouldShowBroadcast");
+            if (shouldShowBroadcast) {
+                if (args.length >= 1) {
+                    if (args[0] == null) {
+                        player.sendMessage(ChatColor.RED + "You need to add a message to broadcast");
+                        return true;
+                    }
+                    String message = String.join(" ", Arrays.copyOfRange(args, 0, args.length));
+                    String messageFormat = plugin.getConfig().getString("broadcast.format")
+                            .replace("%player%", player.getName())
+                            .replace("%message%", message);
+                    for (Player onlinePlayers : Bukkit.getOnlinePlayers()) {
+                        boolean shouldShowEmptyLine = plugin.getConfig().getBoolean("broadcast.shouldShowEmptyLine");
+                        if (shouldShowEmptyLine) {
+                            onlinePlayers.sendMessage(" ");
+                            onlinePlayers.sendMessage(ColorUtil.color(messageFormat).replace("%player%", player.getName()));
+                            onlinePlayers.sendMessage(" ");
+                        } else {
+                            onlinePlayers.sendMessage(ColorUtil.color(messageFormat).replace("%player%", player.getName()));
+                        }
+                    }
                 }
             } else {
-                player.sendMessage(ChatColor.RED + "You don't have permission to run this command.");
+                player.sendMessage(ChatColor.RED + "Broadcast is disabled!");
             }
+        } else {
+            player.sendMessage(ChatColor.RED + "You don't have permission to run this command.");
         }
         return false;
     }

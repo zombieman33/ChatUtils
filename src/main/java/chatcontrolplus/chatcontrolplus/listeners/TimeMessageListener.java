@@ -19,19 +19,24 @@ public class TimeMessageListener implements Listener {
 
     public TimeMessageListener(ChatUtils plugin) {
         this.plugin = plugin;
-        this.dateFormat = new SimpleDateFormat("HH:mm:ss");
+        this.dateFormat = new SimpleDateFormat("HH:mm");
         String timeZone = plugin.getConfig().getString("timeZone");
         this.dateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
     }
 
     @EventHandler
     public void onChatWithTime(AsyncPlayerChatEvent event) {
-        String message = event.getMessage();
-        String time = dateFormat.format(new Date());
-        String timeMessage = plugin.getConfig().getString("timeMessage");
-        String timeFormat = timeMessage
-                .replace("%message%", message)
-                .replace("%time%", time);
-        event.setMessage(ColorUtil.color(timeFormat));
+        boolean shouldShowTime = plugin.getConfig().getBoolean("showTime");
+        if (shouldShowTime) {
+            String message = event.getMessage();
+            String pName = event.getPlayer().getName();
+            String time = dateFormat.format(new Date());
+            String timeMessage = plugin.getConfig().getString("timeMessage");
+            String timeFormat = timeMessage
+                    .replace("%message%", message)
+                    .replace("%time%", time)
+                    .replace("%player%", pName);
+            event.setMessage(ColorUtil.color(timeFormat));
+        }
     }
 }

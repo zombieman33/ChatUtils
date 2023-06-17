@@ -45,6 +45,9 @@ public final class ChatUtils extends JavaPlugin {
         BroadCastCommand broadCastCommand = new BroadCastCommand(this);
         PluginCommand broadcastCmd = getCommand("broadcast");
         if (broadcastCmd != null) broadcastCmd.setExecutor(broadCastCommand);
+        CommandBroadcast commandBroadCastCommand = new CommandBroadcast(this);
+        PluginCommand commandBroadcastCmd = getCommand("command-broadcast");
+        if (commandBroadcastCmd != null) commandBroadcastCmd.setExecutor(commandBroadCastCommand);
 
         PlayerInfoCommand playerInfoCommand = new PlayerInfoCommand(this);
         PluginCommand playerInfoCmd = getCommand("players");
@@ -63,6 +66,7 @@ public final class ChatUtils extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ChatConfigurations(this), this);
         getServer().getPluginManager().registerEvents(new EmojiListener(this), this);
         getServer().getPluginManager().registerEvents(new TimeMessageListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerInfo(this), this);
 
     }
 

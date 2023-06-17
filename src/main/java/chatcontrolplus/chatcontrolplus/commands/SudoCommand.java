@@ -1,7 +1,6 @@
 package chatcontrolplus.chatcontrolplus.commands;
 
 import chatcontrolplus.chatcontrolplus.ChatUtils;
-import chatcontrolplus.chatcontrolplus.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -30,52 +29,57 @@ public class SudoCommand implements CommandExecutor, TabCompleter {
 
         Player player = (Player) sender;
 
-        if (args.length >= 2) {
-            if (args[0] == null) {
-                player.sendMessage(ChatColor.RED + "You need to specify a player to sudo");
-                return true;
-            }
-            if (player.hasPermission("chatutils.sudo")) {
-                String targetName = args[0];
-                Player target = Bukkit.getPlayerExact(targetName);
+        if (player.hasPermission("chatutils.sudo")) {
+            boolean shouldBeAbleToSudo = plugin.getConfig().getBoolean("shouldBeAbleToSudo");
+            if (shouldBeAbleToSudo) {
+                if (args.length >= 2) {
+                    if (args[0] == null) {
+                        player.sendMessage(ChatColor.RED + "You need to specify a player to sudo");
+                        return true;
+                    }
+                    String targetName = args[0];
+                    Player target = Bukkit.getPlayerExact(targetName);
 
-                // Join arguments starting from index 1
-                String commandToRun = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+                    // Join arguments starting from index 1
+                    String commandToRun = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
 
-                if (targetName.equalsIgnoreCase("*")) {
-                    if (commandToRun.startsWith("/")) {
-                        String format = commandToRun.replace("/", "");
-                        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                            onlinePlayer.performCommand(format);
+                    if (targetName.equalsIgnoreCase("*")) {
+                        if (commandToRun.startsWith("/")) {
+                            String format = commandToRun.replace("/", "");
+                            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                                onlinePlayer.performCommand(format);
+                            }
+                            player.sendMessage(ChatColor.GREEN + "You made everyone run: " + format);
+                        } else {
+                            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                                onlinePlayer.chat(commandToRun);
+                            }
                         }
-                        player.sendMessage(ChatColor.GREEN + "You made everyone run: " + format);
                     } else {
-                        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                            onlinePlayer.chat(commandToRun);
+                        if (commandToRun.startsWith("/")) {
+                            String format = commandToRun.replace("/", "");
+                            if (target != null) {
+                                target.performCommand(format);
+                                player.sendMessage(ChatColor.GREEN + "You made " + targetName + " run: " + commandToRun);
+                            } else {
+                                player.sendMessage(ChatColor.RED + "Player not found.");
+                            }
+                        } else {
+                            if (target != null) {
+                                target.chat(commandToRun);
+                            } else {
+                                player.sendMessage(ChatColor.RED + "Player not found.");
+                            }
                         }
                     }
                 } else {
-                    if (commandToRun.startsWith("/")) {
-                        String format = commandToRun.replace("/", "");
-                        if (target != null) {
-                            target.performCommand(format);
-                            player.sendMessage(ChatColor.GREEN + "You made " + targetName + " run: " + commandToRun);
-                        } else {
-                            player.sendMessage(ChatColor.RED + "Player not found.");
-                        }
-                    } else {
-                        if (target != null) {
-                            target.chat(commandToRun);
-                        } else {
-                            player.sendMessage(ChatColor.RED + "Player not found.");
-                        }
-                    }
+                    player.sendMessage(ChatColor.RED + "Invalid command format. Usage: /sudo <player> /<command> or /sudo <player> <message>");
                 }
             } else {
-                player.sendMessage(ChatColor.RED + "You don't have permission to run this command.");
+                player.sendMessage(ChatColor.RED + "Sudo isn't enabled!");
             }
         } else {
-            player.sendMessage(ChatColor.RED + "Invalid command format. Usage: /sudo <player> /<command> or /sudo <player> <message>");
+            player.sendMessage(ChatColor.RED + "You don't have permission to run this command.");
         }
         return true;
     }
