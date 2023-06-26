@@ -35,3 +35,6 @@ commands:
   command-broadcast:
     aliases:
       - cb
+  messagespy:
+    aliases:
+      - ms

@@ -73,7 +73,7 @@ public class SudoCommand implements CommandExecutor, TabCompleter {
                         }
                     }
                 } else {
-                    player.sendMessage(ChatColor.RED + "Invalid command format. Usage: /sudo <player> /<command> or /sudo <player> <message>");
+                    player.sendMessage(ChatColor.YELLOW + "Invalid command format. Usage: /sudo <player, *> <message, /command>");
                 }
             } else {
                 player.sendMessage(ChatColor.RED + "Sudo isn't enabled!");

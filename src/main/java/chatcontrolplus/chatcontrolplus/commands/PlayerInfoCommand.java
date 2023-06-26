@@ -43,7 +43,7 @@ public class PlayerInfoCommand implements CommandExecutor {
                 String targetName = args[0];
                 Player target = Bukkit.getPlayerExact(targetName);
                 if (target != null) {
-                    playerInfo.playerInfo(player, player);
+                    playerInfo.playerInfo(target, player);
                 } else {
                     player.sendMessage(ChatColor.RED + targetName + " is not online.");
                 }

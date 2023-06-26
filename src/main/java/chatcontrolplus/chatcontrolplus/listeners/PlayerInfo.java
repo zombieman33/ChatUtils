@@ -29,9 +29,6 @@ public class PlayerInfo implements Listener {
         String pName = playerToGet.getName();
 
         Location deathLoc = playerToGet.getLastDeathLocation();
-        int xDeath = (int) deathLoc.getX();
-        int yDeath = (int) deathLoc.getY();
-        int zDeath = (int) deathLoc.getZ();
 
         boolean isOnline = playerToGet.isOnline();
 
@@ -91,12 +88,20 @@ public class PlayerInfo implements Listener {
             player.sendMessage(ChatColor.RED + "Online: false");
             player.sendMessage(ChatColor.RED + "Location: N/A");
         }
+        if (deathLoc != null) {
+            int xDeath = (int) deathLoc.getX();
+            int yDeath = (int) deathLoc.getY();
+            int zDeath = (int) deathLoc.getZ();
 
-        TextComponent locMessage = new TextComponent(ChatColor.GREEN + "Death Location: " + xDeath + " " + yDeath + " " + zDeath);
-        locMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + pName + " " + xDeath + " " + yDeath + " " + zDeath));
-        locMessage.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                new ComponentBuilder("Click To Teleport: " + xDeath + " " + yDeath + " " + zDeath).color(net.md_5.bungee.api.ChatColor.GRAY).italic(true).create()));
-        player.spigot().sendMessage(locMessage);
+            TextComponent locMessage = new TextComponent(ChatColor.GREEN + "Death Location: " + xDeath + " " + yDeath + " " + zDeath);
+            locMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + pName + " " + xDeath + " " + yDeath + " " + zDeath));
+            locMessage.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    new ComponentBuilder("Click To Teleport: " + xDeath + " " + yDeath + " " + zDeath).color(net.md_5.bungee.api.ChatColor.GRAY).italic(true).create()));
+            player.spigot().sendMessage(locMessage);
+        } else {
+            player.sendMessage(ChatColor.RED + "Death Location: N/A");
+        }
+
 
         if (isOnline) {
             float nextLevel = playerToGet.getExpToLevel();

@@ -26,19 +26,24 @@ public class MainCommands implements CommandExecutor, TabCompleter {
         }
 
         Player player = (Player) sender;
-
-        if (args.length >= 1) {
-            if (args[0].equalsIgnoreCase("reload")) {
-                if (player.hasPermission("chatutils.reload")) {
-                    long startTime = System.currentTimeMillis();
-                    plugin.reloadConfig();
-                    long endTime = System.currentTimeMillis();
-                    long time = endTime - startTime;
-                    player.sendMessage(ChatColor.GREEN + "You successfully reloaded the config file in (" + time + "ms)");
-                } else {
-                    player.sendMessage(ChatColor.RED + "You don't have permission to run this command.");
+        if (player.hasPermission("chatutils.command.use")) {
+            if (args.length >= 1) {
+                if (args[0].equalsIgnoreCase("reload")) {
+                    if (player.hasPermission("chatutils.reload")) {
+                        long startTime = System.currentTimeMillis();
+                        plugin.reloadConfig();
+                        long endTime = System.currentTimeMillis();
+                        long time = endTime - startTime;
+                        player.sendMessage(ChatColor.GREEN + "You successfully reloaded the config file in (" + time + "ms)");
+                    } else {
+                        player.sendMessage(ChatColor.RED + "You don't have permission to run this command.");
+                    }
                 }
+            } else {
+                player.sendMessage(ChatColor.YELLOW + "/cu reload");
             }
+        } else {
+            player.sendMessage(ChatColor.RED + "You don't have permission to run this command.");
         }
         return false;
     }

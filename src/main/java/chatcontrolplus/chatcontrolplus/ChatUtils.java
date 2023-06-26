@@ -1,6 +1,7 @@
 package chatcontrolplus.chatcontrolplus;
 
 import chatcontrolplus.chatcontrolplus.commands.*;
+import chatcontrolplus.chatcontrolplus.data.SavePlayerData;
 import chatcontrolplus.chatcontrolplus.listeners.*;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,6 +21,11 @@ public final class ChatUtils extends JavaPlugin {
         if (!configFile.exists()) {
             getLogger().info("Config file not found, creating...");
             saveResource("config.yml", false);
+        }
+        File playerDataFile = new File(getDataFolder(), "playerData.yml");
+        if (!playerDataFile.exists()) {
+            getLogger().info("Player Data file not found, creating...");
+            saveResource("playerData.yml", false);
         }
 
         // Commands
@@ -53,6 +59,10 @@ public final class ChatUtils extends JavaPlugin {
         PluginCommand playerInfoCmd = getCommand("players");
         if (playerInfoCmd != null) playerInfoCmd.setExecutor(playerInfoCommand);
 
+        MessageSpyCommand messageSpyCommand = new MessageSpyCommand(this);
+        PluginCommand messageSpyCmd = getCommand("messagespy");
+        if (messageSpyCmd != null) messageSpyCmd.setExecutor(messageSpyCommand);
+
         MessageCommand messageCommand = new MessageCommand(this);
         PluginCommand messageCmd = getCommand("message");
         if (messageCmd != null) messageCmd.setExecutor(messageCommand);
@@ -67,6 +77,8 @@ public final class ChatUtils extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EmojiListener(this), this);
         getServer().getPluginManager().registerEvents(new TimeMessageListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerInfo(this), this);
+
+        new SavePlayerData(this);
 
     }
 

@@ -26,8 +26,9 @@ message:
 
 showTime: true
 timeMessage: '%message% &b%time%'
-timeFormat: 'HH:mm:ss'
 timeZone: 'CET'
+
+shouldBeAbleToSudo: true
 
 # WARNING `shouldShowIp: true` shows the players ip
 # if you don't want this set it to false!
