@@ -57,7 +57,7 @@ public class MuteChatListener implements Listener {
                 UUID pUUID = onlineStaff.getUniqueId();
                 boolean wantsToSeeMessages = playerDataConfig.getBoolean("messageSpy.player." + pUUID + ".ms", false);
                 if (wantsToSeeMessages) {
-                    onlineStaff.sendMessage(ColorUtil.color("&a" + pName + " said: '&c" + message + "'&a while the server is muted."));
+                    onlineStaff.sendMessage(ColorUtil.color("&a" + pName + " said: '&c" + message + "&a' while the server is muted."));
                 }
             }
             player.sendMessage(ChatColor.RED + "The chat is currently muted");

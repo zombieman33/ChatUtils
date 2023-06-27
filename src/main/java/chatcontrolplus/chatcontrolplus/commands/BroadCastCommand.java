@@ -52,6 +52,8 @@ public class BroadCastCommand implements CommandExecutor, TabCompleter {
                             onlinePlayers.sendMessage(ColorUtil.color(messageFormat).replace("%player%", player.getName()));
                         }
                     }
+                } else {
+                    player.sendMessage(ChatColor.YELLOW + "/bc <message>");
                 }
             } else {
                 player.sendMessage(ChatColor.RED + "Broadcast is disabled!");

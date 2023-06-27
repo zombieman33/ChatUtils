@@ -47,6 +47,8 @@ public class StaffChatCommand implements CommandExecutor, TabCompleter {
                             onlineStaff.sendMessage(ColorUtil.color(messageFormat));
                         }
                     }
+                } else {
+                    player.sendMessage(ChatColor.YELLOW + "/staff-chat <message>");
                 }
             } else {
                 player.sendMessage(ChatColor.RED + "Staff Chat is disabled!");

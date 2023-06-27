@@ -47,6 +47,8 @@ public class AdminChatCommand implements CommandExecutor, TabCompleter {
                             onlineStaff.sendMessage(ColorUtil.color(messageFormat));
                         }
                     }
+                } else {
+                    player.sendMessage(ChatColor.YELLOW + "/adminchat <message>");
                 }
             } else {
                 player.sendMessage(ChatColor.RED + "Admin Chat is disabled!");

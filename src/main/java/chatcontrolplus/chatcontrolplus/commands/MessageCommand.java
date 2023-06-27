@@ -51,6 +51,8 @@ public class MessageCommand implements CommandExecutor, TabCompleter {
                     } else {
                         player.sendMessage(ChatColor.RED + "Player not found.");
                     }
+                } else {
+                    player.sendMessage(ChatColor.YELLOW + "/message <player> <message>");
                 }
             } else {
                 player.sendMessage(ChatColor.RED + "Private Messages are disabled");

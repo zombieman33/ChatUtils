@@ -64,6 +64,8 @@ public class CommandBroadcast implements CommandExecutor, TabCompleter {
                     } else {
                         player.sendMessage(ChatColor.RED + "You need to suggest a command not a message.");
                     }
+                } else {
+                    player.sendMessage(ChatColor.YELLOW + "/cb <command>");
                 }
             } else {
                 player.sendMessage(ChatColor.RED + "Command Broadcast is disabled!");
