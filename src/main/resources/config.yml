@@ -53,4 +53,7 @@ disabledAd:
   - hypixel
 
 
-isChatNotMuted: false
+clearChat:
+  format: '%player% cleared the chat'
+muteChat:
+  isChatNotMuted: false

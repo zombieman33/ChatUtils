@@ -30,6 +30,7 @@ public class TimeMessageListener implements Listener {
         if (shouldShowTime) {
             String message = event.getMessage();
             String pName = event.getPlayer().getName();
+
             String time = dateFormat.format(new Date());
             String timeMessage = plugin.getConfig().getString("timeMessage");
             String timeFormat = timeMessage

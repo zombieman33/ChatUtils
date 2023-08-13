@@ -23,14 +23,14 @@ public class MuteChatListener implements Listener {
     }
 
     public void muteChat() {
-        boolean isMuted = plugin.getConfig().getBoolean("isChatNotMuted", false);
+        boolean isMuted = plugin.getConfig().getBoolean("muteChat.isChatNotMuted", false);
         if (isMuted) {
             for (Player onlinePlayers : Bukkit.getOnlinePlayers()) {
                 onlinePlayers.sendMessage(ChatColor.GREEN + "" + ChatColor.STRIKETHROUGH + "                                            ");
                 onlinePlayers.sendMessage(ChatColor.GREEN + "The chat is now unmuted");
                 onlinePlayers.sendMessage(ChatColor.GREEN + "" + ChatColor.STRIKETHROUGH + "                                            ");
             }
-            plugin.getConfig().set("isChatNotMuted", false);
+            plugin.getConfig().set("muteChat.isChatNotMuted", false);
             plugin.saveConfig();
         } else {
             for (Player onlinePlayers : Bukkit.getOnlinePlayers()) {
@@ -38,7 +38,7 @@ public class MuteChatListener implements Listener {
                 onlinePlayers.sendMessage(ChatColor.RED + "The chat is now muted");
                 onlinePlayers.sendMessage(ChatColor.RED + "" + ChatColor.STRIKETHROUGH + "                                            ");
             }
-            plugin.getConfig().set("isChatNotMuted", true);
+            plugin.getConfig().set("muteChat.isChatNotMuted", true);
             plugin.saveConfig();
         }
     }
@@ -48,7 +48,7 @@ public class MuteChatListener implements Listener {
         Player player = event.getPlayer();
         String pName = player.getName();
         String message = event.getMessage();
-        boolean isMuted = plugin.getConfig().getBoolean("isChatNotMuted", false);
+        boolean isMuted = plugin.getConfig().getBoolean("muteChat.isChatNotMuted", false);
         if (isMuted && !player.hasPermission("chatutils.bypass")) {
             event.setCancelled(true);
             for (Player onlineStaff : Bukkit.getOnlinePlayers()) {

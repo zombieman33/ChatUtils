@@ -1,6 +1,7 @@
 package chatcontrolplus.chatcontrolplus.listeners;
 
 import chatcontrolplus.chatcontrolplus.ChatUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -13,12 +14,16 @@ public class ClearChatListener implements Listener {
         this.plugin = plugin;
     }
     public void clearChat(Player player, ChatColor color) {
-        for (int i = 0; i < 200; i++) {
-            plugin.getServer().broadcastMessage(" ");
+        for (Player onlineP : Bukkit.getOnlinePlayers()) {
+            for (int i = 0; i < 200; i++) {
+                onlineP.sendMessage(" ");
+            }
         }
         String pName = player.getName();
-        plugin.getServer().broadcastMessage(color + "" + ChatColor.STRIKETHROUGH + "                                           ");
-        plugin.getServer().broadcastMessage(color + pName + " cleared the chat");
-        plugin.getServer().broadcastMessage(color + "" + ChatColor.STRIKETHROUGH + "                                           ");
+        for (Player oP : Bukkit.getOnlinePlayers()) {
+            oP.sendMessage(color + "" + ChatColor.STRIKETHROUGH + "                                           ");
+            oP.sendMessage(color + plugin.getConfig().getString("clearChat.format").replace("%player%", pName));
+            oP.sendMessage(color + "" + ChatColor.STRIKETHROUGH + "                                           ");
+        }
     }
 }
