@@ -16,6 +16,7 @@ public class EmojiListener implements Listener {
 
     public EmojiListener(ChatUtils plugin) {
         this.plugin = plugin;
+        loadEmojiMap();
     }
 
     Map<String, String> emojiMap = new HashMap<>();
@@ -24,14 +25,15 @@ public class EmojiListener implements Listener {
     public void onChat(AsyncPlayerChatEvent event) {
         boolean shouldShowEmoji = plugin.getConfig().getBoolean("shouldShowEmoji");
         if (shouldShowEmoji) {
-            Player player = event.getPlayer();
             String message = event.getMessage();
-            message = replaceEmojis(message);
-            event.setMessage(ColorUtil.color(message));
+            if (containsEmoji(message)) {
+                message = replaceEmojis(message);
+                event.setMessage(ColorUtil.color(message));
+            }
         }
     }
 
-    private String replaceEmojis(String message) {
+    private void loadEmojiMap() {
         List<String> emojiList = plugin.getConfig().getStringList("emojis");
         for (String emojiEntry : emojiList) {
             String[] parts = emojiEntry.split(", ");
@@ -41,12 +43,23 @@ public class EmojiListener implements Listener {
                 emojiMap.put(keyword, emoji);
             }
         }
+    }
 
+    private String replaceEmojis(String message) {
         for (Map.Entry<String, String> entry : emojiMap.entrySet()) {
             String keyword = entry.getKey();
             String emoji = entry.getValue();
             message = message.replace(keyword, emoji);
         }
         return message;
+    }
+
+    private boolean containsEmoji(String message) {
+        for (String keyword : emojiMap.keySet()) {
+            if (message.contains(keyword)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
